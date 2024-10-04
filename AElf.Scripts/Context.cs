@@ -1,4 +1,3 @@
-using System.Numerics;
 using AElf.Client;
 using AElf.Cryptography;
 using AElf.Cryptography.ECDSA;
