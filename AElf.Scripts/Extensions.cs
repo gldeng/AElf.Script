@@ -48,7 +48,8 @@ public static class Extensions
             Salt = Hash.LoadFromHex("0000000000000000000000000000000000000000000000000000000000000005")
             // TODO: running sequence of salt
         })).MustSucceed();
-        Context.Logger.LogTrace($"Code hash is {tx.Output.CodeHash}");
+        // TODO: Is it possible to calculate codehash before transaction?
+        Context.Logger.LogInformation($"Code hash is {tx.Output.CodeHash}");
         return await ctx.WaitUntilContractIsReleased(tx.Output.CodeHash);
     }
 
@@ -59,7 +60,7 @@ public static class Extensions
         return res.ContractAddress;
     }
 
-    public static (TransactionResult, ByteString) Into(this TransactionResultDto dto)
+    public static (TransactionResult, ByteString) IntoProtobuf(this TransactionResultDto dto)
     {
         var status = dto.Status.ParseStatus();
 
@@ -71,9 +72,9 @@ public static class Extensions
             BlockNumber = dto.BlockNumber,
             Bloom = dto.Bloom != null ? ByteString.FromBase64(dto.Bloom) : ByteString.Empty,
             ReturnValue = dto.ReturnValue != null
-                ? ByteString.FromBase64(dto.ReturnValue)
-                : null,
-            Error = dto.Error,
+                ? ByteString.CopyFrom(ByteArrayHelper.HexStringToByteArray(dto.ReturnValue))
+                : ByteString.Empty,
+            Error = string.IsNullOrEmpty(dto.Error) ? "" : dto.Error,
             Logs =
             {
                 dto.Logs.Select(x => new LogEvent()
@@ -84,8 +85,9 @@ public static class Extensions
                     NonIndexed = ByteString.FromBase64(x.NonIndexed)
                 })
             },
-            Status = status
-        }, ByteString.FromBase64(dto.ReturnValue));
+            Status = status,
+            TransactionId = Hash.LoadFromHex(dto.TransactionId),
+        }, ByteString.CopyFrom(ByteArrayHelper.HexStringToByteArray(dto.ReturnValue)));
     }
 
     public static TransactionResultStatus ParseStatus(this string value)
@@ -124,7 +126,7 @@ public static class Extensions
         var result = await RetryWithExponentialBackoff(maxRetries, initialDelayMs, async () =>
         {
             var result =
-                (await client.GetTransactionResultAsync(transactionId.ToHex())).Into();
+                (await client.GetTransactionResultAsync(transactionId.ToHex())).IntoProtobuf();
             var status = result.Item1.Status;
 
             switch (status)

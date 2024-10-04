@@ -32,7 +32,7 @@ public class MethodStubFactory : IMethodStubFactory
     public IMethodStub<TInput, TOutput> Create<TInput, TOutput>(Method<TInput, TOutput> method)
         where TInput : IMessage<TInput>, new() where TOutput : IMessage<TOutput>, new()
     {
-        Transaction GetUnsignedTransaction(TInput input, Method<TInput, TOutput> method)
+        Transaction GetUnsignedTransaction(TInput input)
         {
             return new Transaction
             {
@@ -46,7 +46,7 @@ public class MethodStubFactory : IMethodStubFactory
         async Task<Transaction> GetTransactionAsync(TInput input)
         {
             var refBlockInfo = await _client.GetRefBlockInfoAsync();
-            var transaction = GetUnsignedTransaction(input, method);
+            var transaction = GetUnsignedTransaction(input);
             transaction.RefBlockNumber = refBlockInfo.Height;
             transaction.RefBlockPrefix = refBlockInfo.Prefix;
 
@@ -110,14 +110,15 @@ public class MethodStubFactory : IMethodStubFactory
 
         async Task<TOutput> CallAsync(TInput input)
         {
-            var transaction = GetUnsignedTransaction(input, method);
+            var transaction = await GetTransactionAsync(input);
 
             var sendResult = await _client.ExecuteTransactionAsync(new ExecuteTransactionDto()
             {
                 RawTransaction = transaction.ToByteArray().ToHex()
             });
 
-            return method.ResponseMarshaller.Deserializer(ByteString.FromBase64(sendResult).ToByteArray());
+            return method.ResponseMarshaller.Deserializer(ByteString
+                .CopyFrom(ByteArrayHelper.HexStringToByteArray(sendResult)).ToByteArray());
         }
 
         async Task<StringValue> CallWithExceptionAsync(TInput input)
