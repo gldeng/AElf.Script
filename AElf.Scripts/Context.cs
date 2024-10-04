@@ -1,7 +1,10 @@
+using System.Numerics;
 using AElf.Client;
 using AElf.Cryptography;
 using AElf.Cryptography.ECDSA;
+using AElf.Types;
 using Microsoft.Extensions.Logging;
+using Nito.AsyncEx;
 
 namespace AElf.Scripts;
 
@@ -45,6 +48,27 @@ public class Context
         }
     }
 
+
+    private static string? _chainId;
+
+    public string ChainId
+    {
+        get
+        {
+            if (!string.IsNullOrEmpty(_chainId))
+            {
+                return _chainId;
+            }
+
+            AsyncContext.Run(async () =>
+            {
+                var chainInfo = await Client!.GetChainStatusAsync();
+                _chainId = chainInfo.ChainId;
+            });
+            return _chainId!;
+        }
+    }
+
     private static ECKeyPair? _globalSenderKey;
 
     public static ECKeyPair? GlobalSenderKey
@@ -66,6 +90,30 @@ public class Context
         }
     }
 
+    private static Hash _nextSalt = Hash.Empty;
+
+    public static Hash NextSalt
+    {
+        get
+        {
+            if (_nextSalt == Hash.Empty)
+            {
+                var value = Environment.GetEnvironmentVariable(EnvVarNames.DEPLOYE_STARTING_SALT.ToString());
+                if (value != null)
+                {
+                    _nextSalt = Hash.LoadFromHex(value);
+                }
+                else
+                {
+                    _nextSalt = Hash.LoadFromHex("0000000000000000000000000000000000000000000000000000000000000001");
+                }
+            }
+
+            return _nextSalt;
+        }
+        set { _nextSalt = value; }
+    }
+
     private static readonly ILoggerFactory _loggerFactory = LoggerFactory.Create(builder =>
     {
         builder.AddConsole();
@@ -73,7 +121,7 @@ public class Context
     });
 
     public static ILogger<Context> Logger { get; private set; } = _loggerFactory.CreateLogger<Context>();
-    public ECKeyPair? SenderKey { get; set; }
+    public ECKeyPair? DeloyerKey { get; set; }
 
     public static ECKeyPair DefaultKeyPair =>
         GetAccountKeyPair("1111111111111111111111111111111111111111111111111111111111111111");
