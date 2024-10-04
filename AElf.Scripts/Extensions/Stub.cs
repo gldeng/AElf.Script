@@ -26,7 +26,7 @@ public static partial class Extension
         where T : ContractStubBase, new()
     {
         Assert(Context.Client != null, "Context is not initialized.");
-        var senderKey = ctx.DeloyerKey ?? Context.GlobalSenderKey ?? Context.DefaultKeyPair;
+        var senderKey = ctx.DeployerKey ?? Context.GlobalSenderKey ?? Context.DefaultKeyPair;
         return new T
         {
             __factory = new MethodStubFactory(Context.Client!, senderKey, contractAddress)

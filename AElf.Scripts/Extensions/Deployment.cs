@@ -37,7 +37,7 @@ public static partial class Extension
     {
         if (deployer == null)
         {
-            deployer = Address.FromPublicKey(ctx.DeloyerKey!.PublicKey);
+            deployer = Address.FromPublicKey(ctx.DeployerKey!.PublicKey);
         }
 
         var hash = HashHelper.ConcatAndCompute(HashHelper.ComputeFrom(deployer), salt);
@@ -49,7 +49,7 @@ public static partial class Extension
     {
         while (true)
         {
-            var address = ctx.GetAddressBySalt(Context.NextSalt, Address.FromPublicKey(ctx.DeloyerKey!.PublicKey));
+            var address = ctx.GetAddressBySalt(Context.NextSalt, Address.FromPublicKey(ctx.DeployerKey!.PublicKey));
             var reg = await ctx.Genesis.GetSmartContractRegistrationByAddress.CallAsync(address);
             if (reg == null)
             {

@@ -121,14 +121,14 @@ public class Context
     });
 
     public static ILogger<Context> Logger { get; private set; } = _loggerFactory.CreateLogger<Context>();
-    public ECKeyPair? DeloyerKey { get; set; }
+    public ECKeyPair? DeployerKey { get; set; }
 
     public static ECKeyPair DefaultKeyPair =>
         GetAccountKeyPair("1111111111111111111111111111111111111111111111111111111111111111");
 
-    private static ECKeyPair GetAccountKeyPair(string priKey)
+    private static ECKeyPair GetAccountKeyPair(string privateKey)
     {
-        return CryptoHelper.FromPrivateKey(ByteArrayHelper.HexStringToByteArray(priKey));
+        return CryptoHelper.FromPrivateKey(ByteArrayHelper.HexStringToByteArray(privateKey));
     }
 
     private static AElfClient? MaybeCreateClient()
