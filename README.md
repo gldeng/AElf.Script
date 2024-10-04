@@ -1,1 +1,1 @@
-# AElf.Scripts
+# AElf.Script
