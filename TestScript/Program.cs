@@ -13,3 +13,4 @@ Environment.SetEnvironmentVariable(EnvVarNames.DEPLOYER_PRIVATE_KEY.ToString(),
 //         "/Users/steven/repo/TomorrowDAOProject/tomorrowDAO-contracts/contracts/merkletree/src/bin/Debug/net8.0/MerkleTreeWithHistory.dll.patched");
 // await deploy.RunAsync();
 
+await new QueryContract().RunAsync();

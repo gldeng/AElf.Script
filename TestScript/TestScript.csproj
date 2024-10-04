@@ -9,7 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\AElf.Scripts\AElf.Scripts.csproj" />
+      <ProjectReference Include="..\AElf.Script\AElf.Script.csproj" />
     </ItemGroup>
 
 </Project>

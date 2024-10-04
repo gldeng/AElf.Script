@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AElf.Scripts", "AElf.Scripts\AElf.Scripts.csproj", "{F2F64CF3-282F-4126-BC4C-D1E5575C7763}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AElf.Script", "AElf.Script\AElf.Script.csproj", "{F2F64CF3-282F-4126-BC4C-D1E5575C7763}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestScript", "TestScript\TestScript.csproj", "{ACF31224-8A07-4151-A0A8-D8C59BCE451F}"
 EndProject

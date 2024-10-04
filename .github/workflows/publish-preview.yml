@@ -1,0 +1,39 @@
+on:
+  push:
+    branches:
+      - preview
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.0.*'  # Change this to the .NET version you're using
+
+      - name: Read version from version.props
+        run: |
+          if [[ "${GITHUB_REF}" == "refs/heads/preview" ]]; then
+            version=$(grep -oP '<Version>\K[^<]+' version.props)
+            echo "VERSION=$version-preview.${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV
+          else
+            version=$(grep -oP '<Version>\K[^<]+' version.props)
+            echo "VERSION=$version" >> $GITHUB_ENV
+          fi
+
+      - name: Build project
+        run: dotnet build AElf.Script/AElf.Script.csproj --configuration Release /p:Version=$VERSION /p:Platform="Any CPU"
+
+      - name: Pack
+        run: dotnet pack AElf.Script/AElf.Script.csproj --configuration Release --output nupkgs /p:Version=$VERSION /p:Platform="Any CPU"
+
+      - name: Publish NuGet packages
+        uses: dansiegel/publish-nuget@v1.2
+        with:
+          filename: '**/*.nupkg'
+          apiKey: ${{ secrets.PREVIEW_NUGET_API_KEY }}
+          feedUrl: ${{ secrets.PREVIEW_NUGET_FEED_URL }}
