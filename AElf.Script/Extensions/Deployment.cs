@@ -12,25 +12,38 @@ public static partial class Extension
     public static async Task<Address?> DeployContractAsync(this ContextWithSystemContracts ctx, string filepath)
     {
         Assert(File.Exists(filepath), $"The file doesn't exist: {filepath}");
-        var code = File.ReadAllBytes(filepath);
+        var code = await File.ReadAllBytesAsync(filepath);
         await ctx.EnsureNextSaltIsNotTakenAsync();
         var tx = (await ctx.Genesis.DeployUserSmartContract.SendAsync(new UserContractDeploymentInput()
         {
             Category = 0,
             Code = ByteString.CopyFrom(code),
             Salt = Context.NextSalt,
-            // TODO: running sequence of salt
         })).MustSucceed();
         // TODO: Is it possible to calculate codehash before transaction?
         Context.Logger.LogInformation($"Code hash is {tx.Output.CodeHash}");
-        return await ctx.WaitUntilContractIsReleased(tx.Output.CodeHash);
+        return await ctx.WaitUntilContractRegistrationIsFound(tx.Output.CodeHash);
     }
 
-    public static async Task<Address> WaitUntilContractIsReleased(this ContextWithSystemContracts ctx, Hash codeHash)
+    public static async Task<Address?> WaitUntilContractRegistrationIsFound(this ContextWithSystemContracts ctx,
+        Hash codeHash)
     {
-        // TODO: Will this fail
-        var res = await ctx.Genesis.GetSmartContractRegistrationByCodeHash.CallAsync(codeHash);
-        return res.ContractAddress;
+        const int maxRetries = 5;
+        const int initialDelayMs = 1000;
+
+        // ReSharper disable once ComplexConditionExpression
+        var result = await RetryWithExponentialBackoff(
+            maxRetries, initialDelayMs, async () =>
+            {
+                var res = await ctx.Genesis.GetSmartContractRegistrationByCodeHash.CallAsync(codeHash);
+                if (res == null || res.Equals(new SmartContractRegistration()))
+                {
+                    return (false, null);
+                }
+
+                return (true, res.ContractAddress);
+            });
+        return result;
     }
 
     public static Address GetAddressBySalt(this Context ctx, Hash salt, Address deployer = null)
