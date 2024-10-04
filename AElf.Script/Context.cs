@@ -70,24 +70,7 @@ public class Context
 
     private static ECKeyPair? _globalSenderKey;
 
-    public static ECKeyPair? GlobalSenderKey
-    {
-        get
-        {
-            if (_globalSenderKey != null)
-            {
-                return _globalSenderKey;
-            }
-
-            var value = Environment.GetEnvironmentVariable(EnvVarNames.DEPLOYER_PRIVATE_KEY.ToString());
-            if (value != null)
-            {
-                _globalSenderKey = GetAccountKeyPair(value);
-            }
-
-            return _globalSenderKey;
-        }
-    }
+    public static ECKeyPair? GlobalSenderKey { get; set; }
 
     private static Hash _nextSalt = Hash.Empty;
 
@@ -120,7 +103,27 @@ public class Context
     });
 
     public static ILogger<Context> Logger { get; private set; } = _loggerFactory.CreateLogger<Context>();
-    public ECKeyPair? DeployerKey { get; set; }
+
+    private ECKeyPair? _deployerKey;
+
+    public ECKeyPair? DeployerKey
+    {
+        get
+        {
+            if (_deployerKey != null)
+            {
+                return _deployerKey;
+            }
+
+            var value = Environment.GetEnvironmentVariable(EnvVarNames.DEPLOYER_PRIVATE_KEY.ToString());
+            if (value != null)
+            {
+                _deployerKey = GetAccountKeyPair(value);
+            }
+
+            return _deployerKey;
+        }
+    }
 
     public static ECKeyPair DefaultKeyPair =>
         GetAccountKeyPair("1111111111111111111111111111111111111111111111111111111111111111");

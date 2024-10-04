@@ -51,7 +51,7 @@ public static partial class Extension
         {
             var address = ctx.GetAddressBySalt(Context.NextSalt, Address.FromPublicKey(ctx.DeployerKey!.PublicKey));
             var reg = await ctx.Genesis.GetSmartContractRegistrationByAddress.CallAsync(address);
-            if (reg == null)
+            if (reg == null || reg.Equals(new SmartContractRegistration()))
             {
                 break;
             }

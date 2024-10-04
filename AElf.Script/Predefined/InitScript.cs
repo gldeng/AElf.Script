@@ -27,7 +27,5 @@ public class InitScript : Script
         var proposalId1 = tx1.Output;
         await Parliament.Approve.SendAsync(proposalId1);
         await Parliament.Release.SendAsync(proposalId1);
-        var proposal = await Parliament.GetProposal.CallAsync(proposalId1);
-        Logger.LogDebug(proposal.ToString());
     }
 }
