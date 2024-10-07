@@ -16,9 +16,9 @@ public static partial class Extension
     private static async Task<TResult?> RetryWithExponentialBackoff<TResult>(int maxRetries, int initialDelayMs,
         Func<Task<(bool completed, TResult? result)>> operation)
     {
-        bool completed = false;
+        var completed = false;
         TResult? result = default(TResult);
-        for (int retry = 0; retry < maxRetries; retry++)
+        for (var retry = 0; retry < maxRetries; retry++)
         {
             (completed, result) = await operation();
             if (completed)

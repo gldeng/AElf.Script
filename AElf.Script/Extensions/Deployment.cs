@@ -26,7 +26,7 @@ public static partial class Extension
     public static async Task<Address?> WaitUntilContractRegistrationIsFound(this ContextWithSystemContracts ctx,
         Hash codeHash)
     {
-        const int maxRetries = 5;
+        const int maxRetries = 7;
         const int initialDelayMs = 1000;
 
         // ReSharper disable once ComplexConditionExpression

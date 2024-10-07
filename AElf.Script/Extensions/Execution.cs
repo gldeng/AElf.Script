@@ -12,7 +12,7 @@ public static partial class Extension
         this AElfClient client,
         Hash transactionId)
     {
-        const int maxRetries = 5;
+        const int maxRetries = 6;
         const int initialDelayMs = 1000;
 
         var result = await RetryWithExponentialBackoff(maxRetries, initialDelayMs, async () =>
