@@ -14,6 +14,7 @@ public class DeployContractScript : Script
     public DeployContractScript(byte[] code)
     {
         ContractPathName = "default";
+        Code = code;
     }
 
     public string ContractPathName { get; } = "";
