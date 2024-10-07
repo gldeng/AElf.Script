@@ -9,10 +9,8 @@ namespace AElf.Scripts;
 
 public static partial class Extension
 {
-    public static async Task<Address?> DeployContractAsync(this ContextWithSystemContracts ctx, string filepath)
+    public static async Task<Address?> DeployContractAsync(this ContextWithSystemContracts ctx, byte[]? code)
     {
-        Assert(File.Exists(filepath), $"The file doesn't exist: {filepath}");
-        var code = await File.ReadAllBytesAsync(filepath);
         await ctx.EnsureNextSaltIsNotTakenAsync();
         var tx = (await ctx.Genesis.DeployUserSmartContract.SendAsync(new UserContractDeploymentInput()
         {

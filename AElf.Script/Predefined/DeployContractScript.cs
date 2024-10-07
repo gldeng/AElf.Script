@@ -1,3 +1,4 @@
+using System.Net;
 using AElf.Types;
 using Microsoft.Extensions.Logging;
 
@@ -10,13 +11,29 @@ public class DeployContractScript : Script
         ContractPathName = contractPathName;
     }
 
-    public string ContractPathName { get; set; }
+    public DeployContractScript(byte[] code)
+    {
+        ContractPathName = "default";
+    }
+
+    public string ContractPathName { get; } = "";
+    public byte[]? Code { get; private set; }
     public Address? DeployedAddress { get; private set; }
 
     public override async Task RunAsync()
     {
-        var address = await this.DeployContractAsync(ContractPathName);
-        DeployedAddress = address;
-        Logger.LogInformation($"Deployed to {address}");
+        if (Code == null || Code.Length == 0)
+        {
+            if (File.Exists(ContractPathName))
+            {
+                throw new Exception("Cannot find code or file.");
+            }
+
+            Code = File.ReadAllBytes(ContractPathName);
+        }
+
+        DeployedAddress = await this.DeployContractAsync(Code);
+        var codeHash = HashHelper.ComputeFrom(Code);
+        Logger.LogInformation($"{codeHash} deployed to {DeployedAddress}");
     }
 }
