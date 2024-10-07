@@ -82,7 +82,7 @@ public class MethodStubFactory : IMethodStubFactory
                     break;
                 case TransactionResultStatus.Pending:
                 case TransactionResultStatus.PendingValidation:
-                    throw new Exception($"Transaction is {status}");
+                    throw new Exception($"Transaction is {status}. Transaction Details: {transaction}");
                 case TransactionResultStatus.NotExisted:
                     throw new Exception("Transaction does not exist");
                 case TransactionResultStatus.Failed:
