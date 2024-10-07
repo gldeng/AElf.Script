@@ -24,7 +24,7 @@ public class DeployContractScript : Script
     {
         if (Code == null || Code.Length == 0)
         {
-            if (File.Exists(ContractPathName))
+            if (!File.Exists(ContractPathName))
             {
                 throw new Exception("Cannot find code or file.");
             }
