@@ -17,6 +17,6 @@ public class ContextWithSystemContracts : Context
 
     internal TokenContractContainer.TokenContractStub TokenContractStub =>
         this.GetInstance<TokenContractContainer.TokenContractStub>(
-            "7RzVGiuVWkvL4VfVHdZfQF2Tri3sgLe9U991bohHFfSRZXuGX"
+            "JRmBduh4nXWi1aXgdUsj5gJrzeZb2LxmrAbf7W99faZSvoAaE"
         );
 }
