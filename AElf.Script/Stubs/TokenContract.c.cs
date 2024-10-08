@@ -400,7 +400,7 @@ namespace AElf.Contracts.MultiToken {
   }
 
   #endregion
-  public static partial class TokenContractContainer
+  internal static partial class TokenContractContainer
   {
     static readonly string __ServiceName = "token.TokenContract";
 
@@ -820,7 +820,7 @@ namespace AElf.Contracts.MultiToken {
     }
     #endregion
 
-    public class TokenContractStub : aelf::ContractStubBase
+    internal class TokenContractStub : aelf::ContractStubBase
     {
       public aelf::IMethodStub<global::AElf.Contracts.MultiToken.CreateInput, global::Google.Protobuf.WellKnownTypes.Empty> Create
       {

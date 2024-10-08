@@ -15,7 +15,7 @@ public class ContextWithSystemContracts : Context
         "pykr77ft9UUKJZLVq15wCH8PinBSjVRQ12sD1Ayq92mKFsJ1i"
     );
 
-    public TokenContractContainer.TokenContractStub TokenContractStub =>
+    internal TokenContractContainer.TokenContractStub TokenContractStub =>
         this.GetInstance<TokenContractContainer.TokenContractStub>(
             "7RzVGiuVWkvL4VfVHdZfQF2Tri3sgLe9U991bohHFfSRZXuGX"
         );

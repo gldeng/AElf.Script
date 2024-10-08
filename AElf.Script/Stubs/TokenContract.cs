@@ -12,7 +12,7 @@ using scg = global::System.Collections.Generic;
 namespace AElf.Contracts.MultiToken {
 
   /// <summary>Holder for reflection information generated from Protobuf/stub/token_contract.proto</summary>
-  public static partial class TokenContractReflection {
+  internal static partial class TokenContractReflection {
 
     #region Descriptor
     /// <summary>File descriptor for Protobuf/stub/token_contract.proto</summary>
