@@ -28,7 +28,7 @@ public abstract class Script : ContextWithSystemContracts
         }
     }
 
-    private T GetConfig<T>()
+    public T GetConfig<T>()
     {
         var deserializer = new DeserializerBuilder()
             .WithNamingConvention(CamelCaseNamingConvention.Instance)
