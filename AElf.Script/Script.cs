@@ -8,7 +8,7 @@ public abstract class Script : ContextWithSystemContracts
     public string Environment => System.Environment.GetEnvironmentVariable("AELFSCRIPT_ENVIRONMENT") ?? "Development";
     public string ConfigFile => $"config.{Environment}.yaml";
 
-    private string _configContent = "";
+    protected string _configContent = "";
 
     public string ConfigContent
     {
@@ -32,6 +32,8 @@ public abstract class Script : ContextWithSystemContracts
     {
         var deserializer = new DeserializerBuilder()
             .WithNamingConvention(CamelCaseNamingConvention.Instance)
+            .WithTypeConverter(new AddressConverter())
+            .WithTypeConverter(new HashConverter())
             .IgnoreUnmatchedProperties()
             .Build();
 
