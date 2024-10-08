@@ -73,4 +73,18 @@ public static partial class Extension
             Symbol = symbol
         });
     }
+
+    public static async Task<long> GetBalanceAsync(
+        this ContextWithSystemContracts ctx,
+        Address owner,
+        string symbol = "ELF"
+    )
+    {
+        var output = await ctx.TokenContractStub.GetBalance.CallAsync(new GetBalanceInput()
+        {
+            Owner = owner,
+            Symbol = symbol
+        });
+        return output.Balance;
+    }
 }
