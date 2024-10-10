@@ -36,9 +36,9 @@ public class DeployContractScript : Script
             if (alreadyDeployed)
             {
                 DeployedAddress = address;
+                Logger.LogInformation($"Skipping already deployed address {DeployedAddress}.");
+                return;
             }
-
-            Logger.LogInformation($"Skipping already deployed address {DeployedAddress}.");
         }
 
         DeployedAddress = await this.DeployContractAsync(Code);
