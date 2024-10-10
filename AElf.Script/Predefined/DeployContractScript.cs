@@ -18,8 +18,8 @@ public class DeployContractScript : Script
     }
 
     public string ContractPathName { get; } = "";
-    public byte[]? Code { get; private set; }
-    public Address? DeployedAddress { get; private set; }
+    public byte[]? Code { get; protected set; }
+    public Address? DeployedAddress { get; protected set; }
 
     public override async Task RunAsync()
     {
