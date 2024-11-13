@@ -1,7 +1,7 @@
 using AElf.CSharp.Core;
 using Google.Protobuf;
 
-namespace AElf.Scripts;
+namespace AElf.Script;
 
 public static partial class Extension
 {

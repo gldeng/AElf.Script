@@ -1,7 +1,7 @@
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace AElf.Scripts;
+namespace AElf.Script;
 
 public abstract class ScriptWithConfig<TConfig> : Script
 {

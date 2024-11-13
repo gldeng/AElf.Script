@@ -4,7 +4,7 @@ using AElf.Types;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Logging;
 
-namespace AElf.Scripts.Predefined;
+namespace AElf.Script.Predefined;
 
 public class InitScript : Script
 {

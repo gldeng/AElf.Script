@@ -1,8 +1,9 @@
 using AElf.Contracts.MultiToken;
+using AElf.Script;
 using AElf.Standards.ACS0;
 using AElf.Standards.ACS3;
 
-namespace AElf.Scripts;
+namespace AElf.Script;
 
 public class ContextWithSystemContracts : Context
 {

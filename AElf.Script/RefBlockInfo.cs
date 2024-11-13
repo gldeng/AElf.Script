@@ -1,6 +1,6 @@
 using Google.Protobuf;
 
-namespace AElf.Scripts;
+namespace AElf.Script;
 
 public sealed class RefBlockInfo
 {

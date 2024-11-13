@@ -1,7 +1,8 @@
 using AElf.Client;
+using AElf.Script;
 using AElf.Types;
 
-namespace AElf.Scripts;
+namespace AElf.Script;
 
 public static partial class Extension
 {

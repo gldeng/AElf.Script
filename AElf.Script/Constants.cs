@@ -1,4 +1,4 @@
-namespace AElf.Scripts;
+namespace AElf.Script;
 
 public enum EnvVarNames
 {

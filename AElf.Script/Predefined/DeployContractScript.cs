@@ -1,7 +1,7 @@
 using AElf.Types;
 using Microsoft.Extensions.Logging;
 
-namespace AElf.Scripts.Predefined;
+namespace AElf.Script.Predefined;
 
 public class DeployContractScript : Script
 {

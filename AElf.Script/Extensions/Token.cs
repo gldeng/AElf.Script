@@ -1,9 +1,10 @@
 using AElf.Contracts.MultiToken;
+using AElf.Script;
 using AElf.Types;
 
 // ReSharper disable TooManyArguments
 
-namespace AElf.Scripts;
+namespace AElf.Script;
 
 public static partial class Extension
 {

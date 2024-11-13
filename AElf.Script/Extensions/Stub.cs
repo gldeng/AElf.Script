@@ -1,9 +1,10 @@
 using AElf.Client;
 using AElf.Cryptography.ECDSA;
 using AElf.CSharp.Core;
+using AElf.Script;
 using AElf.Types;
 
-namespace AElf.Scripts;
+namespace AElf.Script;
 
 public static partial class Extension
 {

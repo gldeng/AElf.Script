@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Numerics;
+using AElf.Script;
 using AElf.Standards.ACS0;
 using AElf.Types;
 using Google.Protobuf;
 using Microsoft.Extensions.Logging;
 
-namespace AElf.Scripts;
+namespace AElf.Script;
 
 public static partial class Extension
 {

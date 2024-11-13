@@ -3,7 +3,7 @@ using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
-namespace AElf.Scripts;
+namespace AElf.Script;
 
 public class AddressConverter : IYamlTypeConverter
 {

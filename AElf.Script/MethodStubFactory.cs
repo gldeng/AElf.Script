@@ -3,13 +3,13 @@ using AElf.Client.Dto;
 using AElf.Cryptography;
 using AElf.Cryptography.ECDSA;
 using AElf.CSharp.Core;
+using AElf.Script;
 using AElf.Types;
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 using Nito.AsyncEx;
-using Enum = System.Enum;
 
-namespace AElf.Scripts;
+namespace AElf.Script;
 
 public class MethodStubFactory : IMethodStubFactory
 {

@@ -1,7 +1,7 @@
 using AElf.Cryptography.ECDSA;
 using AElf.Types;
 
-namespace AElf.Scripts;
+namespace AElf.Script;
 
 public static partial class Extension
 {

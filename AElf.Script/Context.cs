@@ -1,11 +1,12 @@
 using AElf.Client;
 using AElf.Cryptography;
 using AElf.Cryptography.ECDSA;
+using AElf.Script;
 using AElf.Types;
 using Microsoft.Extensions.Logging;
 using Nito.AsyncEx;
 
-namespace AElf.Scripts;
+namespace AElf.Script;
 
 public class Context
 {
