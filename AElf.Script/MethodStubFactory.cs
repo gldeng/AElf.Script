@@ -75,6 +75,8 @@ public class MethodStubFactory : IMethodStubFactory
             var (transactionResult, returnValue) =
                 await _client.WaitForTransactionCompletionAsync(Hash.LoadFromHex(sendResult.TransactionId));
 
+            TransactionHistory.AddTransaction(transaction.GetHash(), transaction, transactionResult, returnValue);
+
             var status = transactionResult.Status;
             switch (status)
             {
