@@ -1,5 +1,6 @@
 using AElf.Contracts.Configuration;
 using AElf.CSharp.Core.Extension;
+using AElf.Kernel.SmartContractExecution;
 using AElf.Standards.ACS3;
 using AElf.Types;
 using Google.Protobuf;
@@ -14,8 +15,9 @@ public class InitScript : Script
     {
         await AllowGenesisContractToProposeAsync();
         await ChangeCallThresholdAsync();
-        var configValue = await this.GetConfigurationAsync<Int32Value>(CallCountThresholdKey);
-        Logger.LogInformation($"{CallCountThresholdKey} value is {configValue}");
+        var configValue =
+            await this.GetConfigurationAsync<ExecutionObserverThreshold>(ExecutionObserverThresholdConfigurationName);
+        Logger.LogInformation($"{ExecutionObserverThresholdConfigurationName} configuration value is {configValue}");
     }
 
     private async Task AllowGenesisContractToProposeAsync()
@@ -41,14 +43,17 @@ public class InitScript : Script
 
     private async Task ChangeCallThresholdAsync()
     {
+        var branchThreshold = Environment.GetEnvironmentVariable(EnvVarNames.AELF_CONFIG_BRANCH_THRESHOLD.ToString()) ??
+                              "15000";
         var callThreshold = Environment.GetEnvironmentVariable(EnvVarNames.AELF_CONFIG_CALL_THRESHOLD.ToString()) ??
                             "80000";
         var tx = ConfigurationContractStub.SetConfiguration.GetTransaction(new SetConfigurationInput()
         {
-            Key = CallCountThresholdKey,
-            Value = new Int32Value()
+            Key = ExecutionObserverThresholdConfigurationName,
+            Value = new ExecutionObserverThreshold()
             {
-                Value = int.Parse(callThreshold)
+                ExecutionCallThreshold = int.Parse(callThreshold),
+                ExecutionBranchThreshold = int.Parse(branchThreshold)
             }.ToByteString()
         });
 
@@ -65,5 +70,5 @@ public class InitScript : Script
         await Parliament.Release.SendAsync(proposalId1);
     }
 
-    private const string CallCountThresholdKey = "CallCountThreshold";
+    private const string ExecutionObserverThresholdConfigurationName = "ExecutionObserverThreshold";
 }
