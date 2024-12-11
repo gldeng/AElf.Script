@@ -1,3 +1,4 @@
+using AElf.Contracts.Configuration;
 using AElf.Contracts.MultiToken;
 using AElf.Script;
 using AElf.Standards.ACS0;
@@ -19,5 +20,10 @@ public class ContextWithSystemContracts : Context
     internal TokenContractContainer.TokenContractStub TokenContractStub =>
         this.GetInstance<TokenContractContainer.TokenContractStub>(
             "JRmBduh4nXWi1aXgdUsj5gJrzeZb2LxmrAbf7W99faZSvoAaE"
+        );
+
+    internal ConfigurationContainer.ConfigurationStub ConfigurationContractStub =>
+        this.GetInstance<ConfigurationContainer.ConfigurationStub>(
+            "2iQBrmFhk8HAxgDeL5fyupghzs7ZConf8KMyhkYZFSHnNsNQsn"
         );
 }
