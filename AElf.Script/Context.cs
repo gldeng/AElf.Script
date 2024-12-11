@@ -81,7 +81,7 @@ public class Context
         {
             if (_nextSalt == Hash.Empty)
             {
-                var value = Environment.GetEnvironmentVariable(EnvVarNames.DEPLOYE_STARTING_SALT.ToString());
+                var value = Environment.GetEnvironmentVariable(EnvVarNames.DEPLOYER_STARTING_SALT.ToString());
                 if (value != null)
                 {
                     _nextSalt = Hash.LoadFromHex(value);
